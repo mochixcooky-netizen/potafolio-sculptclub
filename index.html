@@ -125,6 +125,95 @@
       color: var(--color-texto-suave);
     }
 
+    /* ----- Demo interactiva ----- */
+    .suave { color: var(--color-texto-suave); font-size: .95rem; }
+    .frase { padding: 14px 16px; border-radius: var(--radio); margin: 0 0 1rem; }
+    .frase.antes   { background: #f6e3de; }
+    .frase.despues { background: #e1eddc; }
+
+    .chats { display: grid; gap: 8px; margin-bottom: 1.5rem; }
+    .chat {
+      background: var(--color-tarjeta);
+      border: 1px solid var(--color-borde);
+      border-radius: 12px 12px 12px 2px;
+      padding: 8px 12px;
+      font-size: .95rem;
+      max-width: 85%;
+    }
+    .chat b { margin-right: 6px; }
+    .chat:nth-child(2) { margin-left: 10%; }
+    .chat:nth-child(3) { margin-left: 4%; }
+
+    .clase {
+      background: var(--color-tarjeta);
+      border: 1px solid var(--color-borde);
+      border-radius: var(--radio);
+      padding: 18px;
+      margin-bottom: 1rem;
+    }
+    .clase-cabecera {
+      display: flex; flex-wrap: wrap; gap: 8px;
+      justify-content: space-between; align-items: center;
+      margin-bottom: 12px;
+    }
+    .contador {
+      background: var(--color-fondo-alt);
+      padding: 4px 12px; border-radius: 999px;
+      font-size: .9rem; font-weight: 600;
+    }
+
+    .alumnas { list-style: none; padding: 0; margin: 0 0 12px; }
+    .alumnas li {
+      display: flex; flex-wrap: wrap; gap: 8px;
+      align-items: center; justify-content: space-between;
+      padding: 10px 0;
+      border-top: 1px solid var(--color-borde);
+      margin: 0;
+    }
+    .alumna-nombre { font-weight: 600; }
+    .insignia {
+      font-size: .8rem; padding: 2px 10px; border-radius: 999px;
+      background: var(--color-fondo-alt); color: var(--color-texto-suave);
+    }
+    .insignia.ok    { background: #e1eddc; color: #3c5d32; }
+    .insignia.envio { background: #fbeed0; color: #7a5a12; }
+    .insignia.libre { background: #f6e3de; color: #8a3b2c; }
+    .fila-botones { display: flex; gap: 6px; }
+
+    button { font: inherit; cursor: pointer; }
+    .boton-demo, .boton-sec, .mini {
+      border-radius: 999px; border: 1px solid var(--color-acento);
+    }
+    .boton-demo {
+      width: 100%; padding: 12px 16px;
+      background: var(--color-acento); color: #fff; font-weight: 600;
+    }
+    .boton-demo:hover:not(:disabled) { background: var(--color-acento-oscuro); }
+    .boton-demo:disabled { opacity: .45; cursor: default; }
+    .boton-sec { padding: 8px 18px; background: transparent; color: var(--color-acento); }
+    .mini { padding: 6px 12px; background: #fff; color: var(--color-acento); font-size: .9rem; }
+    .mini.si { background: var(--color-acento); color: #fff; }
+    .paso { margin: 8px 0 0; }
+    button:focus-visible { outline: 3px solid var(--color-acento); outline-offset: 2px; }
+
+    .wa { margin-top: 14px; }
+    .wa-titulo { font-size: .85rem; color: var(--color-texto-suave); margin-bottom: 6px; }
+    .wa-burbuja {
+      background: #dcf8c6; border-radius: 12px 12px 12px 2px;
+      padding: 10px 14px; max-width: 90%; font-size: .95rem;
+    }
+    .wa-botones { display: inline-block; margin-top: 6px; font-weight: 600; }
+
+    .aviso-lista { list-style: none; padding: 0; margin: 12px 0 0; display: grid; gap: 6px; }
+    .aviso-lista li {
+      background: var(--color-fondo); border-left: 3px solid var(--color-acento);
+      padding: 6px 10px; font-size: .9rem; margin: 0;
+    }
+
+    .demo-acciones { text-align: center; margin: 1rem 0; }
+    .demo-cta { text-align: center; margin-top: 1.5rem; }
+    .demo-cta .boton { max-width: 100%; }
+
     /* ==========================================================
        6) PREGUNTAS FRECUENTES (acordeón nativo, sin JavaScript)
        ========================================================== */
@@ -269,9 +358,58 @@
       <div class="contenedor">
         <span class="num">03</span>
         <h2>Antes y después</h2>
-        <p>[Placeholder: una línea que presente la demo.]</p>
-        <div class="demo-caja" role="img" aria-label="Espacio reservado para la demo">
-          [Espacio reservado para la demo]
+        <p>Probalo vos misma, con una clase de ejemplo.</p>
+
+        <!-- ===== DEMO INTERACTIVA (la lógica está en el <script> del final) ===== -->
+        <div class="demo" id="demo-app">
+
+          <!-- 1) EL ANTES, en una frase + chats desordenados de ejemplo -->
+          <p class="frase antes"><strong>Antes:</strong> tres chats abiertos, un cupo de reformer que se pasó y una camilla vacía porque nadie avisó.</p>
+          <div class="chats" aria-hidden="true">
+            <div class="chat"><b>Majo</b> ¿Hay lugar el martes a las 19?</div>
+            <div class="chat"><b>Lu</b> Uy, no llego hoy 🙈 <small>(20 min antes de la clase)</small></div>
+            <div class="chat"><b>Cami</b> Yo te dije que venía, ¿me anotaste?</div>
+          </div>
+
+          <!-- 2) LA DEMO: el calendario con recordatorio -->
+          <div class="clase">
+            <div class="clase-cabecera">
+              <div>
+                <strong>Reformer · Martes 19:00</strong>
+                <div class="suave">Profe: Ana · 4 camas</div>
+              </div>
+              <div class="contador"><span id="demo-conf">0</span> de 4 confirmadas</div>
+            </div>
+
+            <ul class="alumnas" id="demo-lista"></ul>
+
+            <p class="suave" id="demo-espera"></p>
+
+            <!-- Paso 1: enviar recordatorios -->
+            <button type="button" class="boton-demo" id="demo-enviar">1. Enviar recordatorios por WhatsApp</button>
+            <p class="suave paso" id="demo-paso">Tocá el botón y mirá qué recibe cada alumna.</p>
+
+            <!-- Vista del mensaje que recibe la alumna -->
+            <div class="wa" id="demo-wa" hidden>
+              <div class="wa-titulo">Lo que recibe cada alumna en su WhatsApp</div>
+              <div class="wa-burbuja">Hola 👋 Te esperamos mañana, martes 19:00, en Reformer. ¿Venís?<br><span class="wa-botones">✅ Sí, voy &nbsp;·&nbsp; ❌ No puedo</span></div>
+            </div>
+
+            <!-- Registro de avisos -->
+            <ul class="aviso-lista" id="demo-log" aria-live="polite"></ul>
+          </div>
+
+          <!-- 3) EL DESPUÉS, en una frase (aparece cuando todos los lugares quedan resueltos) -->
+          <p class="frase despues" id="demo-despues" hidden><strong>Después:</strong> la alumna recibe el aviso, confirma con un toque, la baja la cubre otra de la lista de espera y vos ya tenés la semana de redes lista.</p>
+
+          <div class="demo-acciones">
+            <button type="button" class="boton-sec" id="demo-reiniciar">↺ Probar de nuevo</button>
+          </div>
+
+          <!-- Botón final de la demo (poné el link real en href cuando lo tengas) -->
+          <div class="demo-cta">
+            <a class="boton" href="#">¿Lo ves claro? Agendá 20 minutos y te armo la versión para tu negocio</a>
+          </div>
         </div>
       </div>
     </section>
@@ -346,6 +484,160 @@
   <footer>
     <div class="contenedor">© Cinthia · Todos los derechos reservados</div>
   </footer>
+
+  <!-- ==========================================================
+       JAVASCRIPT DE LA DEMO
+       Todo corre en el navegador: no hay servidor ni datos reales.
+       ========================================================== -->
+  <script>
+    (function () {
+      // ---- Datos de ejemplo (inventados) ----
+      var ALUMNAS_INICIAL = ['Majo Benítez', 'Lucía Ferreyra', 'Camila Rossi', 'Sol Giménez'];
+      var ESPERA_INICIAL  = ['Valentina Paz', 'Romina Aguirre'];
+
+      // Estados posibles de cada lugar:
+      // inscripta -> enviado -> confirmada | cubierta | libre
+      var lugares, espera, recordatorioEnviado, avisos;
+
+      var $lista   = document.getElementById('demo-lista');
+      var $conf    = document.getElementById('demo-conf');
+      var $espera  = document.getElementById('demo-espera');
+      var $enviar  = document.getElementById('demo-enviar');
+      var $paso    = document.getElementById('demo-paso');
+      var $wa      = document.getElementById('demo-wa');
+      var $log     = document.getElementById('demo-log');
+      var $despues = document.getElementById('demo-despues');
+      var $reiniciar = document.getElementById('demo-reiniciar');
+
+      // Si la demo no está en la página, no hacemos nada
+      if (!$lista) return;
+
+      function iniciar() {
+        lugares = ALUMNAS_INICIAL.map(function (n) { return { nombre: n, estado: 'inscripta' }; });
+        espera = ESPERA_INICIAL.slice();
+        recordatorioEnviado = false;
+        avisos = [];
+        dibujar();
+      }
+
+      // Crea un elemento de forma corta
+      function el(tag, clase, texto) {
+        var e = document.createElement(tag);
+        if (clase) e.className = clase;
+        if (texto) e.textContent = texto;
+        return e;
+      }
+
+      function textoEstado(estado) {
+        return {
+          inscripta: ['Anotada', ''],
+          enviado:   ['Recordatorio enviado', 'envio'],
+          confirmada:['Confirmada ✓', 'ok'],
+          cubierta:  ['Cubierta desde lista de espera ✓', 'ok'],
+          libre:     ['Lugar libre', 'libre']
+        }[estado];
+      }
+
+      function dibujar() {
+        $lista.innerHTML = '';
+        lugares.forEach(function (l, i) {
+          var li = el('li');
+          var izq = el('div');
+          izq.appendChild(el('span', 'alumna-nombre', l.nombre === null ? 'Cama libre' : l.nombre));
+          izq.appendChild(document.createTextNode(' '));
+          var t = textoEstado(l.estado);
+          izq.appendChild(el('span', 'insignia ' + t[1], t[0]));
+          li.appendChild(izq);
+
+          // La alumna "toca" su respuesta (la simulamos con estos botones)
+          if (l.estado === 'enviado') {
+            var botones = el('div', 'fila-botones');
+            var si = el('button', 'mini si', 'Sí, voy');
+            si.type = 'button';
+            si.setAttribute('aria-label', 'Simular: ' + l.nombre + ' confirma');
+            si.onclick = function () { confirmar(i); };
+            var no = el('button', 'mini', 'No puedo');
+            no.type = 'button';
+            no.setAttribute('aria-label', 'Simular: ' + l.nombre + ' avisa que no puede');
+            no.onclick = function () { bajar(i); };
+            botones.appendChild(si);
+            botones.appendChild(no);
+            li.appendChild(botones);
+          }
+          $lista.appendChild(li);
+        });
+
+        // Contador de confirmadas
+        var n = lugares.filter(function (l) {
+          return l.estado === 'confirmada' || l.estado === 'cubierta';
+        }).length;
+        $conf.textContent = n;
+
+        // Lista de espera
+        $espera.textContent = espera.length
+          ? 'Lista de espera: ' + espera.join(', ')
+          : 'Lista de espera: vacía';
+
+        // Botón de envío y texto guía
+        $enviar.disabled = recordatorioEnviado;
+        $wa.hidden = !recordatorioEnviado;
+        if (!recordatorioEnviado) {
+          $paso.textContent = 'Tocá el botón y mirá qué recibe cada alumna.';
+        } else if (!resuelto()) {
+          $paso.textContent = 'Ahora hacé de alumna: tocá "Sí, voy" o "No puedo" en cada una. Probá con un "No puedo".';
+        } else {
+          $paso.textContent = 'Clase resuelta.';
+        }
+
+        // Registro de avisos
+        $log.innerHTML = '';
+        avisos.forEach(function (a) { $log.appendChild(el('li', '', a)); });
+
+        // El "después" aparece cuando no queda nadie pendiente
+        $despues.hidden = !(recordatorioEnviado && resuelto());
+      }
+
+      function resuelto() {
+        return lugares.every(function (l) {
+          return l.estado === 'confirmada' || l.estado === 'cubierta' || l.estado === 'libre';
+        });
+      }
+
+      function primerNombre(n) { return n.split(' ')[0]; }
+
+      function enviar() {
+        recordatorioEnviado = true;
+        lugares.forEach(function (l) { l.estado = 'enviado'; });
+        avisos.push('📲 Recordatorio enviado a las 4 alumnas, 24 h antes de la clase.');
+        dibujar();
+      }
+
+      function confirmar(i) {
+        lugares[i].estado = 'confirmada';
+        avisos.push('✅ ' + primerNombre(lugares[i].nombre) + ' confirmó con un toque.');
+        dibujar();
+      }
+
+      function bajar(i) {
+        var baja = lugares[i].nombre;
+        avisos.push('❌ ' + primerNombre(baja) + ' avisó que no puede venir.');
+        if (espera.length) {
+          // La primera de la lista de espera ocupa el lugar
+          var nueva = espera.shift();
+          lugares[i] = { nombre: nueva, estado: 'cubierta' };
+          avisos.push('🔔 Se le avisó a ' + primerNombre(nueva) + ' (lista de espera): aceptó el lugar y quedó confirmada.');
+        } else {
+          lugares[i] = { nombre: null, estado: 'libre' };
+          avisos.push('⚠️ La lista de espera está vacía: la cama queda libre y vos lo sabés con tiempo.');
+        }
+        dibujar();
+      }
+
+      $enviar.onclick = enviar;
+      $reiniciar.onclick = iniciar;
+      iniciar();
+    })();
+  </script>
 
 </body>
 </html>
