@@ -5,6 +5,18 @@
   <!-- Necesario para que se vea bien en el celular -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#f1e6dc">
+  <!-- Tema: se decide ANTES de dibujar la página para que no parpadee.
+       Usa lo que elegiste la última vez; si no hay nada, el tema de tu celular o compu. -->
+  <script>
+    (function () {
+      var tema = 'light';
+      try {
+        tema = localStorage.getItem('tema') ||
+               (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      } catch (e) {}
+      document.documentElement.setAttribute('data-theme', tema);
+    })();
+  </script>
   <title>Cinthia · Agenda y redes para estudios de pilates</title>
   <meta name="description" content="Agenda de clases con recordatorios por WhatsApp y calendario de contenido para estudios de pilates.">
 
@@ -476,6 +488,129 @@
       .chat, .chat:nth-child(2), .chat:nth-child(3) { max-width: none; margin-left: 0; }
     }
 
+    /* ==========================================================
+       10) TEMA CLARO / OSCURO + ILUSTRACIÓN 3D DE FONDO
+       ========================================================== */
+
+    /* Colores extra del tema claro (todo lo que antes estaba "fijo") */
+    :root {
+      --boton-tx: #ffffff;
+      --mini-bg: #ffffff;
+      --velo: rgba(250,248,245,.80);         /* capa semitransparente de las secciones */
+      --velo-alt: rgba(241,236,229,.84);
+      --hero-bg: linear-gradient(180deg, rgba(241,230,220,.55) 0%, rgba(250,248,245,.30) 100%);
+      --num-bg: rgba(138,90,68,.12);
+      --final-bg: rgba(111,70,54,.96);
+      --final-btn-bg: #ffffff;
+      --final-btn-tx: #6f4636;
+      --antes-bg: #f6e3de;
+      --despues-bg: #e1eddc;
+      --ok-bg: #e1eddc;   --ok-tx: #3c5d32;
+      --envio-bg: #fbeed0; --envio-tx: #7a5a12;
+      --libre-bg: #f6e3de; --libre-tx: #8a3b2c;
+      --wa-bg: #dcf8c6;   --wa-tx: #2b2724;
+      /* Colores de la ilustración 3D */
+      --i1: #f6d2bd; --i2: #d99a79; --i3: #a55f43;   /* pelota: terracota */
+      --j1: #d5e3cf; --j2: #9dbb94; --j3: #5f8656;   /* aro: salvia */
+      --k1: #f1dfd0; --k2: #d8b9a2; --k3: #b08972;   /* colchoneta: arena */
+      --sombra-3d: rgba(60,40,30,.28);
+    }
+
+    /* Tema oscuro */
+    :root[data-theme="dark"] {
+      color-scheme: dark;
+      --color-fondo: #14100e;
+      --color-fondo-alt: #1d1815;
+      --color-tarjeta: #231d1a;
+      --color-texto: #f1ebe4;
+      --color-texto-suave: #b8ada2;
+      --color-acento: #d9a186;
+      --color-acento-oscuro: #ecc0a8;
+      --color-borde: #3b322c;
+      --sombra: 0 1px 2px rgba(0,0,0,.4), 0 8px 24px rgba(0,0,0,.35);
+      --boton-tx: #1b1411;
+      --mini-bg: #2b2420;
+      --velo: rgba(20,16,14,.80);
+      --velo-alt: rgba(29,24,21,.84);
+      --hero-bg: linear-gradient(180deg, rgba(60,40,32,.45) 0%, rgba(20,16,14,.20) 100%);
+      --num-bg: rgba(217,161,134,.16);
+      --final-bg: rgba(42,29,23,.96);
+      --final-btn-bg: #f1ebe4;
+      --final-btn-tx: #2a1d17;
+      --antes-bg: #3a2420;
+      --despues-bg: #22321d;
+      --ok-bg: #22321d;   --ok-tx: #b5d6a8;
+      --envio-bg: #3a2f14; --envio-tx: #efd28b;
+      --libre-bg: #3a2420; --libre-tx: #f0b3a4;
+      --wa-bg: #1f4a37;   --wa-tx: #eaf7ee;
+      --i1: #e8a98a; --i2: #a8623f; --i3: #5b3223;
+      --j1: #9dbb94; --j2: #5f8656; --j3: #2f4a2b;
+      --k1: #c9a68e; --k2: #8f6e5a; --k3: #4d382c;
+      --sombra-3d: rgba(0,0,0,.55);
+    }
+
+    /* Los colores fijos de antes ahora salen de las variables */
+    .encabezado { background: var(--hero-bg); }
+    section { background: var(--velo); }
+    section:nth-of-type(even) { background: var(--velo-alt); }
+    section#reunion { background: var(--final-bg); }
+    footer { background: var(--velo); }
+    .num, .encabezado .etiqueta { background: var(--num-bg); }
+    .frase.antes   { background: var(--antes-bg); }
+    .frase.despues { background: var(--despues-bg); }
+    .insignia.ok    { background: var(--ok-bg);    color: var(--ok-tx); }
+    .insignia.envio { background: var(--envio-bg); color: var(--envio-tx); }
+    .insignia.libre { background: var(--libre-bg); color: var(--libre-tx); }
+    .wa-burbuja { background: var(--wa-bg); color: var(--wa-tx); }
+    .mini { background: var(--mini-bg); }
+    .mini.si, .boton-demo, .boton { color: var(--boton-tx); }
+    .mini.si { background: var(--color-acento); }
+    section ol > li::before { color: var(--boton-tx); }
+    #reunion .boton { background: var(--final-btn-bg); color: var(--final-btn-tx); }
+    #reunion .boton:hover { background: var(--color-fondo-alt); color: var(--color-texto); }
+    #reunion .num { color: #fff; background: rgba(255,255,255,.18); }
+    .boton:hover { color: var(--boton-tx); }
+    :root[data-theme="dark"] .burbuja { box-shadow: 0 4px 14px rgba(0,0,0,.6); }
+
+    /* ----- Ilustración 3D de fondo: pelota, aro y colchoneta de pilates -----
+       Está fija detrás de todo y no se puede tocar ni leer con lector de pantalla. */
+    .fondo-3d {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      overflow: hidden;
+      pointer-events: none;
+    }
+    .fondo-3d svg { position: absolute; height: auto; }
+    .f-pelota   { width: clamp(200px, 40vw, 480px); right: -8vw; top: 6vh; }
+    .f-aro      { width: clamp(170px, 30vw, 380px); left: -6vw; top: 42vh; }
+    .f-colchon  { width: clamp(240px, 46vw, 600px); right: 4vw; bottom: 2vh; }
+
+    /* ----- Botón de tema (arriba a la derecha) ----- */
+    .tema-btn {
+      position: fixed;
+      top: max(12px, env(safe-area-inset-top));
+      right: max(12px, env(safe-area-inset-right));
+      z-index: 101;
+      width: 46px; height: 46px;
+      display: grid; place-items: center;
+      border-radius: 50%;
+      border: 1px solid var(--color-borde);
+      background: var(--color-tarjeta);
+      color: var(--color-texto);
+      box-shadow: var(--sombra);
+      cursor: pointer;
+    }
+    .tema-btn svg {
+      width: 22px; height: 22px;
+      fill: none; stroke: currentColor; stroke-width: 2;
+      stroke-linecap: round; stroke-linejoin: round;
+    }
+    .tema-btn .ic-sol { display: none; }
+    :root[data-theme="dark"] .tema-btn .ic-sol  { display: block; }
+    :root[data-theme="dark"] .tema-btn .ic-luna { display: none; }
+    .tema-btn:focus-visible { outline: 3px solid var(--color-acento); outline-offset: 3px; }
+
     /* ----- Respeta a quien pide menos movimiento ----- */
     @media (prefers-reduced-motion: reduce) {
       html { scroll-behavior: auto; }
@@ -485,6 +620,72 @@
 </head>
 
 <body>
+
+  <!-- ========== FONDO: ilustración 3D de pilates (SVG dibujado a mano, sin imágenes externas) ========== -->
+  <div class="fondo-3d" aria-hidden="true">
+
+    <!-- Pelota de pilates -->
+    <svg class="f-pelota" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="gPelota" cx="35%" cy="30%" r="75%">
+          <stop offset="0"   style="stop-color:var(--i1)"/>
+          <stop offset=".55" style="stop-color:var(--i2)"/>
+          <stop offset="1"   style="stop-color:var(--i3)"/>
+        </radialGradient>
+        <filter id="blur1"><feGaussianBlur stdDeviation="5"/></filter>
+      </defs>
+      <ellipse cx="100" cy="190" rx="72" ry="8" style="fill:var(--sombra-3d)" filter="url(#blur1)"/>
+      <circle cx="100" cy="95" r="90" fill="url(#gPelota)"/>
+      <ellipse cx="68" cy="52" rx="26" ry="14" fill="#fff" opacity=".35" transform="rotate(-35 68 52)"/>
+    </svg>
+
+    <!-- Aro de pilates (magic circle) -->
+    <svg class="f-aro" viewBox="0 0 240 240" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="gAro" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0"  style="stop-color:var(--j1)"/>
+          <stop offset=".5" style="stop-color:var(--j2)"/>
+          <stop offset="1"  style="stop-color:var(--j3)"/>
+        </linearGradient>
+        <linearGradient id="gAlmohadilla" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0" style="stop-color:var(--i1)"/>
+          <stop offset="1" style="stop-color:var(--i3)"/>
+        </linearGradient>
+        <filter id="blur2"><feGaussianBlur stdDeviation="5"/></filter>
+      </defs>
+      <ellipse cx="120" cy="228" rx="76" ry="7" style="fill:var(--sombra-3d)" filter="url(#blur2)"/>
+      <circle cx="120" cy="115" r="86" fill="none" stroke="url(#gAro)" stroke-width="22"/>
+      <circle cx="120" cy="115" r="81" fill="none" stroke="#fff" stroke-width="4" opacity=".35"
+              stroke-dasharray="150 400" transform="rotate(-150 120 115)"/>
+      <rect x="8"   y="92" width="24" height="46" rx="11" fill="url(#gAlmohadilla)"/>
+      <rect x="208" y="92" width="24" height="46" rx="11" fill="url(#gAlmohadilla)"/>
+    </svg>
+
+    <!-- Colchoneta enrollada -->
+    <svg class="f-colchon" viewBox="0 0 300 120" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="gColchon" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0"   style="stop-color:var(--k1)"/>
+          <stop offset=".55" style="stop-color:var(--k2)"/>
+          <stop offset="1"   style="stop-color:var(--k3)"/>
+        </linearGradient>
+        <filter id="blur3"><feGaussianBlur stdDeviation="5"/></filter>
+      </defs>
+      <ellipse cx="150" cy="108" rx="125" ry="8" style="fill:var(--sombra-3d)" filter="url(#blur3)"/>
+      <ellipse cx="40" cy="60" rx="18" ry="35" style="fill:var(--k3)"/>
+      <rect x="40" y="25" width="220" height="70" fill="url(#gColchon)"/>
+      <rect x="120" y="25" width="14" height="70" style="fill:var(--k3)" opacity=".55"/>
+      <ellipse cx="260" cy="60" rx="18" ry="35" style="fill:var(--k1)"/>
+      <ellipse cx="260" cy="60" rx="12" ry="24" fill="none" style="stroke:var(--k3)" stroke-width="3" opacity=".7"/>
+      <ellipse cx="260" cy="60" rx="6"  ry="12" fill="none" style="stroke:var(--k3)" stroke-width="3" opacity=".7"/>
+    </svg>
+  </div>
+
+  <!-- Botón para cambiar entre tema claro y oscuro -->
+  <button type="button" class="tema-btn" id="tema-btn" aria-label="Cambiar a tema oscuro" title="Cambiar tema claro / oscuro">
+    <svg class="ic-luna" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+    <svg class="ic-sol" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+  </button>
 
   <!-- ========== HEADER: mi nombre ========== -->
   <header class="encabezado">
@@ -734,6 +935,27 @@
   <footer>
     <div class="contenedor">© Cinthia · Todos los derechos reservados</div>
   </footer>
+
+  <!-- JAVASCRIPT DEL TEMA: cambia claro/oscuro y recuerda tu elección en este navegador -->
+  <script>
+    (function () {
+      var raiz = document.documentElement;
+      var boton = document.getElementById('tema-btn');
+      var meta = document.querySelector('meta[name="theme-color"]');
+      function actualizar() {
+        var oscuro = raiz.getAttribute('data-theme') === 'dark';
+        boton.setAttribute('aria-label', oscuro ? 'Cambiar a tema claro' : 'Cambiar a tema oscuro');
+        if (meta) meta.setAttribute('content', oscuro ? '#14100e' : '#f1e6dc');
+      }
+      boton.addEventListener('click', function () {
+        var nuevo = raiz.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+        raiz.setAttribute('data-theme', nuevo);
+        try { localStorage.setItem('tema', nuevo); } catch (e) {}
+        actualizar();
+      });
+      actualizar();
+    })();
+  </script>
 
   <!-- ==========================================================
        JAVASCRIPT DE LA DEMO
