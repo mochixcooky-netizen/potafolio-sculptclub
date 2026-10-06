@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <!-- Necesario para que se vea bien en el celular -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cinthia · Agenda y redes para estudios de pilates</title>
+  <meta name="description" content="Agenda de clases con recordatorios por WhatsApp y calendario de contenido para estudios de pilates.">
+
+  <style>
+    /* ==========================================================
+       1) VARIABLES DE DISEÑO
+       Cambiá colores y tamaños acá y se actualiza toda la página.
+       ========================================================== */
+    :root {
+      --color-fondo: #faf8f5;
+      --color-fondo-alt: #f1ece5;
+      --color-tarjeta: #ffffff;
+      --color-texto: #2b2724;
+      --color-texto-suave: #6b645d;
+      --color-acento: #8a5a44;        /* terracota suave */
+      --color-acento-oscuro: #6f4636;
+      --color-borde: #e4ddd3;
+      --radio: 14px;
+      --ancho-max: 720px;             /* ancho de lectura cómodo */
+    }
+
+    /* ==========================================================
+       2) BASE
+       ========================================================== */
+    *, *::before, *::after { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      font-size: 1.0625rem;           /* 17px: cómodo en el celular */
+      line-height: 1.65;
+      color: var(--color-texto);
+      background: var(--color-fondo);
+    }
+
+    h1, h2 { line-height: 1.2; margin: 0 0 .75rem; }
+    h1 { font-size: clamp(1.75rem, 6vw, 2.5rem); }
+    h2 { font-size: clamp(1.4rem, 4.5vw, 1.8rem); }
+    p  { margin: 0 0 1rem; }
+
+    /* Contenedor centrado con margen lateral de 20px en el celular */
+    .contenedor {
+      width: 100%;
+      max-width: var(--ancho-max);
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* ==========================================================
+       3) HEADER
+       ========================================================== */
+    .encabezado {
+      padding: 56px 0 40px;
+      border-bottom: 1px solid var(--color-borde);
+    }
+    .encabezado .etiqueta {
+      display: inline-block;
+      margin-bottom: .75rem;
+      font-size: .85rem;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--color-acento);
+      font-weight: 600;
+    }
+    .encabezado p { color: var(--color-texto-suave); margin: 0; }
+
+    /* ==========================================================
+       4) SECCIONES
+       Se alternan dos fondos para separar visualmente.
+       ========================================================== */
+    section { padding: 48px 0; }
+    section:nth-of-type(even) { background: var(--color-fondo-alt); }
+
+    /* Número chico arriba del título (01, 02, ...) */
+    .num {
+      display: block;
+      font-size: .8rem;
+      font-weight: 700;
+      letter-spacing: .1em;
+      color: var(--color-acento);
+      margin-bottom: .25rem;
+    }
+
+    /* ==========================================================
+       5) DEMO (caja vacía para completar después)
+       ========================================================== */
+    .demo-caja {
+      min-height: 240px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 24px;
+      background: var(--color-tarjeta);
+      border: 2px dashed var(--color-borde);
+      border-radius: var(--radio);
+      color: var(--color-texto-suave);
+    }
+
+    /* ==========================================================
+       6) PREGUNTAS FRECUENTES (acordeón nativo, sin JavaScript)
+       ========================================================== */
+    details {
+      background: var(--color-tarjeta);
+      border: 1px solid var(--color-borde);
+      border-radius: var(--radio);
+      margin-bottom: .75rem;
+    }
+    summary {
+      cursor: pointer;
+      padding: 16px 18px;
+      font-weight: 600;
+      list-style: none;               /* saca la flecha por defecto */
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: center;
+    }
+    summary::-webkit-details-marker { display: none; }
+    summary::after {                  /* signo + / − */
+      content: "+";
+      font-size: 1.4rem;
+      color: var(--color-acento);
+      flex-shrink: 0;
+    }
+    details[open] summary::after { content: "−"; }
+    details p { padding: 0 18px; margin: 0 0 1rem; color: var(--color-texto-suave); }
+
+    /* ==========================================================
+       7) BOTÓN DE REUNIÓN (CTA)
+       ========================================================== */
+    .cta { text-align: center; }
+    .boton {
+      display: inline-block;
+      width: 100%;                    /* ancho completo en celular */
+      max-width: 420px;
+      padding: 16px 24px;
+      background: var(--color-acento);
+      color: #fff;
+      font-size: 1.1rem;
+      font-weight: 600;
+      text-decoration: none;
+      border-radius: 999px;
+      transition: background .2s;
+    }
+    .boton:hover { background: var(--color-acento-oscuro); }
+
+    /* Accesibilidad: foco visible para quien navega con teclado */
+    a:focus-visible, summary:focus-visible {
+      outline: 3px solid var(--color-acento);
+      outline-offset: 3px;
+    }
+
+    /* ==========================================================
+       8) PIE
+       ========================================================== */
+    footer {
+      padding: 28px 0;
+      text-align: center;
+      font-size: .9rem;
+      color: var(--color-texto-suave);
+    }
+
+    /* Pantallas más grandes: algo más de aire */
+    @media (min-width: 720px) {
+      section { padding: 72px 0; }
+      .encabezado { padding: 80px 0 56px; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ========== HEADER: mi nombre ========== -->
+  <header class="encabezado">
+    <div class="contenedor">
+      <span class="etiqueta">Agenda y redes para estudios de pilates</span>
+      <h1>Cinthia</h1>
+      <p>[Placeholder: frase corta bajo mi nombre.]</p>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- ========== 1) PRESENTACIÓN: quién soy y qué ofrezco ========== -->
+    <section id="presentacion">
+      <div class="contenedor">
+        <span class="num">01</span>
+        <h2>Quién soy y qué ofrezco</h2>
+        <p>[Placeholder: quién soy y qué conozco de los estudios de pilates.]</p>
+        <p>[Placeholder: qué armo para tu estudio.]</p>
+      </div>
+    </section>
+
+    <!-- ========== 2) PARA QUIÉN SÍ / PARA QUIÉN NO ========== -->
+    <section id="para-quien">
+      <div class="contenedor">
+        <span class="num">02</span>
+        <h2>Para quién sí y para quién no</h2>
+        <p>[Placeholder: para quién sí.]</p>
+        <p>[Placeholder: para quién no.]</p>
+      </div>
+    </section>
+
+    <!-- ========== 3) DEMO (caja vacía, se completa después) ========== -->
+    <section id="demo">
+      <div class="contenedor">
+        <span class="num">03</span>
+        <h2>Antes y después</h2>
+        <p>[Placeholder: una línea que presente la demo.]</p>
+        <div class="demo-caja" role="img" aria-label="Espacio reservado para la demo">
+          [Espacio reservado para la demo]
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== 4) CÓMO TRABAJO ========== -->
+    <section id="como-trabajo">
+      <div class="contenedor">
+        <span class="num">04</span>
+        <h2>Cómo trabajo, paso a paso</h2>
+        <p>[Placeholder: qué me pasás y qué hago yo.]</p>
+        <p>[Placeholder: plazo, guía, sesión y acompañamiento.]</p>
+      </div>
+    </section>
+
+    <!-- ========== 5) CÓMO SE ARMA UN PRESUPUESTO (sin precios) ========== -->
+    <section id="presupuesto">
+      <div class="contenedor">
+        <span class="num">05</span>
+        <h2>Cómo se arma un presupuesto</h2>
+        <p>[Placeholder: cada estudio es distinto, se habla en una reunión 1:1.]</p>
+        <p>[Placeholder: primero ves la demo, después hablamos de números.]</p>
+      </div>
+    </section>
+
+    <!-- ========== 6) PREGUNTAS FRECUENTES (las 6 objeciones) ========== -->
+    <section id="preguntas">
+      <div class="contenedor">
+        <span class="num">06</span>
+        <h2>Preguntas frecuentes</h2>
+        <p>[Placeholder: breve intro de las preguntas.]</p>
+
+        <details>
+          <summary>¿Tengo que cambiar cómo trabajo?</summary>
+          <p>[Placeholder: respuesta en 1 o 2 líneas.]</p>
+        </details>
+        <details>
+          <summary>¿Y si mis alumnas no son de la tecnología?</summary>
+          <p>[Placeholder: respuesta en 1 o 2 líneas.]</p>
+        </details>
+        <details>
+          <summary>¿Qué pasa con los datos de mis alumnas?</summary>
+          <p>[Placeholder: respuesta en 1 o 2 líneas.]</p>
+        </details>
+        <details>
+          <summary>¿Se publica solo en redes?</summary>
+          <p>[Placeholder: respuesta en 1 o 2 líneas.]</p>
+        </details>
+        <details>
+          <summary>¿Y si algo se rompe o cambio los horarios?</summary>
+          <p>[Placeholder: respuesta en 1 o 2 líneas.]</p>
+        </details>
+        <details>
+          <summary>¿Cómo sé que funcionó?</summary>
+          <p>[Placeholder: respuesta en 1 o 2 líneas.]</p>
+        </details>
+      </div>
+    </section>
+
+    <!-- ========== 7) BOTÓN PARA AGENDAR REUNIÓN ========== -->
+    <section id="reunion" class="cta">
+      <div class="contenedor">
+        <span class="num">07</span>
+        <h2>Veinte minutos, sin compromiso</h2>
+        <p>[Placeholder: texto breve previo al botón.]</p>
+        <!-- TODO: reemplazar href="#" por el link real (Calendly, WhatsApp, etc.) -->
+        <a class="boton" href="#">Agendá una reunión de 20 minutos</a>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <div class="contenedor">© Cinthia · Todos los derechos reservados</div>
+  </footer>
+
+</body>
+</html>
