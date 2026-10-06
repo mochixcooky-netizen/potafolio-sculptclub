@@ -71,6 +71,26 @@
       font-weight: 600;
     }
     .encabezado p { color: var(--color-texto-suave); margin: 0; }
+    /* Frase de oferta del hero: más grande y en color de texto principal */
+    .encabezado .oferta {
+      font-size: 1.2rem;
+      color: var(--color-texto);
+      max-width: 34em;
+    }
+
+    /* Listas con viñetas dentro de las secciones */
+    section ul, section ol { margin: 0 0 1rem; padding-left: 1.25rem; }
+    section li { margin-bottom: .5rem; }
+    section h3 { font-size: 1.1rem; margin: 1.5rem 0 .5rem; }
+    /* Tarjetas para el "sí" y el "no" */
+    .si-no { display: grid; gap: 16px; }
+    .si-no .tarjeta {
+      background: var(--color-tarjeta);
+      border: 1px solid var(--color-borde);
+      border-radius: var(--radio);
+      padding: 20px 20px 8px;
+    }
+    .si-no h3 { margin-top: 0; }
 
     /* ==========================================================
        4) SECCIONES
@@ -183,8 +203,9 @@
   <header class="encabezado">
     <div class="contenedor">
       <span class="etiqueta">Agenda y redes para estudios de pilates</span>
-      <h1>Cinthia</h1>
-      <p>[Placeholder: frase corta bajo mi nombre.]</p>
+      <h1>Cinthia Calle</h1>
+      <!-- Frase de oferta: qué recibe el estudio -->
+      <p class="oferta">Te armo la agenda de clases con recordatorios por WhatsApp y un calendario de contenido para tus redes. Vos das clases; yo me ocupo de que los turnos y el Instagram no se te escapen.</p>
     </div>
   </header>
 
@@ -195,8 +216,25 @@
       <div class="contenedor">
         <span class="num">01</span>
         <h2>Quién soy y qué ofrezco</h2>
-        <p>[Placeholder: quién soy y qué conozco de los estudios de pilates.]</p>
-        <p>[Placeholder: qué armo para tu estudio.]</p>
+        <p>Soy Cinthia Calle. Me especializo en pilates: mat, reformer y clases mixtas.</p>
+        <p>Conozco el estudio por dentro: cupos limitados, alumnas que faltan, bajas de último momento y el Instagram que siempre queda para después. Con eso armo herramientas de IA simples para que tu estudio funcione ordenado.</p>
+
+        <h3>Qué problema te saco</h3>
+        <ul>
+          <li>Clases que se pisan o se pasan de cupo, sobre todo en reformer.</li>
+          <li>Alumnas que faltan o avisan tarde, y el lugar que queda vacío.</li>
+          <li>Pasarte el día confirmando y recordando turnos a mano.</li>
+          <li>Redes abandonadas, o publicar cuando te acordás y no cuando conviene.</li>
+        </ul>
+
+        <h3>Qué te entrego</h3>
+        <ol>
+          <li>Agenda de clases con tus horarios, cupos (mat y reformer) y profes.</li>
+          <li>Recordatorios por WhatsApp antes de cada clase, con opción de confirmar o avisar que no va.</li>
+          <li>Lista de espera simple: una baja la cubre otra alumna.</li>
+          <li>Calendario semanal de contenido: qué subir, qué día y a qué hora, con textos sugeridos en tu estilo.</li>
+          <li>Una guía corta de uso y una sesión para que lo uses con confianza.</li>
+        </ol>
       </div>
     </section>
 
@@ -205,8 +243,24 @@
       <div class="contenedor">
         <span class="num">02</span>
         <h2>Para quién sí y para quién no</h2>
-        <p>[Placeholder: para quién sí.]</p>
-        <p>[Placeholder: para quién no.]</p>
+        <div class="si-no">
+          <div class="tarjeta">
+            <h3>Sí, si…</h3>
+            <ul>
+              <li>Tenés un estudio chico o mediano de mat, reformer o mixto.</li>
+              <li>Llevás los turnos en un cuaderno, una planilla o el WhatsApp.</li>
+              <li>Te cuesta subir contenido a redes entre clase y clase.</li>
+            </ul>
+          </div>
+          <div class="tarjeta">
+            <h3>No, si…</h3>
+            <ul>
+              <li>Ya tenés un sistema que te funciona bien.</li>
+              <li>Tu estudio todavía no tiene alumnas regulares.</li>
+              <li>No tenés a nadie que pueda contestarme dudas en 24 horas.</li>
+            </ul>
+          </div>
+        </div>
       </div>
     </section>
 
