@@ -210,6 +210,23 @@
       padding: 6px 10px; font-size: .9rem; margin: 0;
     }
 
+    /* Agenda de contenido para redes */
+    .posts { list-style: none; padding: 0; margin: 0; }
+    .posts li {
+      padding: 12px 0; margin: 0;
+      border-top: 1px solid var(--color-borde);
+    }
+    .post-cab {
+      display: flex; flex-wrap: wrap; gap: 8px;
+      align-items: center; justify-content: space-between;
+      margin-bottom: 6px;
+    }
+    .post-dia { font-weight: 700; }
+    .post-texto {
+      margin: 0 0 8px; font-size: .95rem;
+      background: var(--color-fondo); border-radius: 10px; padding: 8px 12px;
+    }
+
     .demo-acciones { text-align: center; margin: 1rem 0; }
     .demo-cta { text-align: center; margin-top: 1.5rem; }
     .demo-cta .boton { max-width: 100%; }
@@ -422,6 +439,19 @@
             <ul class="aviso-lista" id="demo-log" aria-live="polite"></ul>
           </div>
 
+          <!-- 2b) AGENDA DE CONTENIDO PARA REDES: semana sugerida (se dibuja con JS) -->
+          <div class="clase semana">
+            <div class="clase-cabecera">
+              <div>
+                <strong>Redes · Tu semana sugerida</strong>
+                <div class="suave">Qué subir, qué día y a qué hora. Nada sale sin tu OK.</div>
+              </div>
+              <div class="contador"><span id="demo-aprob">0</span> de 5 aprobadas</div>
+            </div>
+            <ul class="posts" id="demo-posts"></ul>
+            <p class="suave paso">Textos de ejemplo: en tu estudio los escribo con tu tono de voz.</p>
+          </div>
+
           <!-- 3) EL DESPUÉS, en una frase (aparece cuando todos los lugares quedan resueltos) -->
           <p class="frase despues" id="demo-despues" hidden><strong>Después:</strong> la alumna recibe el aviso, confirma con un toque, la baja la cubre otra de la lista de espera y vos ya tenés la semana de redes lista.</p>
 
@@ -557,6 +587,16 @@
       var ALUMNAS_INICIAL = ['Majo Benítez', 'Lucía Ferreyra', 'Camila Rossi', 'Sol Giménez'];
       var ESPERA_INICIAL  = ['Valentina Paz', 'Romina Aguirre'];
 
+      // Semana de contenido para redes (textos de ejemplo)
+      var POSTS = [
+        { dia: 'Lunes',     hora: '09:00', tipo: 'Tip',        texto: 'Lunes de movimiento 💪 Tip rápido: llegá 5 minutos antes a clase y soltá los hombros. Tu cuerpo lo nota desde el primer ejercicio.' },
+        { dia: 'Martes',    hora: '12:30', tipo: 'Clase',      texto: 'Hoy a las 19 hay Reformer con Ana. Quedan pocas camas, reservá tu lugar con un toque 👇' },
+        { dia: 'Miércoles', hora: '18:00', tipo: 'Testimonio', texto: '“Llegué con dolor de espalda y hoy no me pierdo ni una clase.” — Majo, alumna del estudio 🤍' },
+        { dia: 'Jueves',    hora: '11:00', tipo: 'Tip',        texto: '¿Mat o Reformer? Si recién empezás, el mat te enseña la base. Si ya la tenés, el reformer te desafía. Escribinos y te ayudamos a elegir.' },
+        { dia: 'Viernes',   hora: '10:00', tipo: 'Promo',      texto: 'Esta semana traé a una amiga a tu clase de mat y su primera clase va de regalo 🎁 Reservás por WhatsApp.' }
+      ];
+      var aprobados;
+
       // Estados posibles de cada lugar:
       // inscripta -> enviado -> confirmada | cubierta | libre
       var lugares, espera, recordatorioEnviado, avisos;
@@ -570,6 +610,8 @@
       var $log     = document.getElementById('demo-log');
       var $despues = document.getElementById('demo-despues');
       var $reiniciar = document.getElementById('demo-reiniciar');
+      var $posts   = document.getElementById('demo-posts');
+      var $aprob   = document.getElementById('demo-aprob');
 
       // Si la demo no está en la página, no hacemos nada
       if (!$lista) return;
@@ -579,7 +621,34 @@
         espera = ESPERA_INICIAL.slice();
         recordatorioEnviado = false;
         avisos = [];
+        aprobados = POSTS.map(function () { return false; });
         dibujar();
+      }
+
+      // Dibuja la semana de redes con su botón "Aprobar"
+      function dibujarPosts() {
+        $posts.innerHTML = '';
+        var n = 0;
+        POSTS.forEach(function (p, i) {
+          var li = el('li');
+          var cab = el('div', 'post-cab');
+          cab.appendChild(el('span', 'post-dia', p.dia + ' · ' + p.hora + ' hs'));
+          cab.appendChild(el('span', 'insignia', p.tipo));
+          li.appendChild(cab);
+          li.appendChild(el('p', 'post-texto', p.texto));
+          if (aprobados[i]) {
+            n++;
+            li.appendChild(el('span', 'insignia ok', 'Aprobada ✓ · sale el ' + p.dia.toLowerCase() + ' a las ' + p.hora));
+          } else {
+            var b = el('button', 'mini si', 'Aprobar');
+            b.type = 'button';
+            b.setAttribute('aria-label', 'Aprobar la publicación del ' + p.dia.toLowerCase());
+            b.onclick = function () { aprobados[i] = true; dibujarPosts(); };
+            li.appendChild(b);
+          }
+          $posts.appendChild(li);
+        });
+        $aprob.textContent = n;
       }
 
       // Crea un elemento de forma corta
@@ -654,6 +723,8 @@
         // Registro de avisos
         $log.innerHTML = '';
         avisos.forEach(function (a) { $log.appendChild(el('li', '', a)); });
+
+        dibujarPosts();
 
         // El "después" aparece cuando no queda nadie pendiente
         $despues.hidden = !(recordatorioEnviado && resuelto());
